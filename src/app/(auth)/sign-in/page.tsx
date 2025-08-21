@@ -7,7 +7,6 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -15,7 +14,6 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { z } from "zod";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { EyeOff } from "lucide-react";
 import { Eye } from "lucide-react";
@@ -28,7 +26,6 @@ export default function SignInForm() {
   const [isPosting, setIsPosting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState(false);
-  const router = useRouter();
 
   const form = useForm<z.infer<typeof SigninFormSchema>>({
     resolver: zodResolver(SigninFormSchema),
@@ -157,7 +154,7 @@ export default function SignInForm() {
             
             <div className="flex justify-start items-center gap-2">
               <span className="text-sm text-gray-500">
-                Don't have an account?
+                Don&apos;t have an account?
               </span>
               <Link href="/sign-up" className="text-blue-500 hover:text-blue-700">
                 Sign up

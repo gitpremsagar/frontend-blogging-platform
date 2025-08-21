@@ -49,7 +49,7 @@ export default function SignUpForm() {
     setSuccess(null);
   
     try {
-      const response = await axios.post(API_ROUTES.auth.signUp, values);
+      await axios.post(API_ROUTES.auth.signUp, values);
   
       setSuccess("Signup successful!");
       router.push("/sign-up/success");
@@ -79,6 +79,18 @@ export default function SignUpForm() {
         <p className="text-sm text-gray-500 mb-4">
           Create an account to get started
         </p>
+        
+        {error && (
+          <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
+            {error}
+          </div>
+        )}
+        
+        {success && (
+          <div className="mb-4 p-3 bg-green-100 border border-green-400 text-green-700 rounded">
+            {success}
+          </div>
+        )}
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <FormField
