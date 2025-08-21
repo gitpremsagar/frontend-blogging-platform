@@ -23,45 +23,37 @@ export default function Header() {
 const LeftNav = () => {
   return (
     <nav className="flex justify-between items-center">
-      <Link href="/">
-        <h1 className="text-2xl font-bold ml-6">Logo</h1>
-      </Link>
+      <Logo />
 
       <ul className="flex justify-end block">
         {NavLinks.map((link) => (
-          <NavLink key={link.href} href={link.href}>
+          <LeftNavLink key={link.href} href={link.href}>
             {link.label}
-          </NavLink>
+          </LeftNavLink>
         ))}
       </ul>
     </nav>
   );
 };
 
-const RightNav = () => {
+const Logo = () => {
   return (
-    <ul className="flex justify-end block">
-    <li>
-      <Link
-        className="p-4 block hover:bg-blue-400 transition-colors duration-500"
-        href="/login"
-      >
-        Login
-      </Link>
-    </li>
-    <li>
-      <Link
-        className="p-4 block hover:bg-blue-400 transition-colors duration-500"
-        href="/register"
-      >
-        Register
-      </Link>
-    </li>
-  </ul>
+    <Link href="/" className="px-6 block">
+      <h1 className="text-2xl font-bold">Logo</h1>
+    </Link>
   );
 };
 
-const NavLink = ({
+const RightNav = () => {
+  return (
+    <ul className="flex justify-end block">
+      <RightNavLink href="/sign-in">Log In</RightNavLink>
+      <RightNavLink href="/sign-up">Sign Up</RightNavLink>
+    </ul>
+  );
+};
+
+const RightNavLink = ({
   href,
   children,
 }: {
@@ -71,7 +63,26 @@ const NavLink = ({
   return (
     <li>
       <Link
-        className="p-4 block hover:bg-blue-400 transition-colors duration-500"
+        className="p-4 block hover:bg-blue-400 transition-colors duration-300"
+        href={href}
+      >
+        {children}
+      </Link>
+    </li>
+  );
+};
+
+const LeftNavLink = ({
+  href,
+  children,
+}: {
+  href: string;
+  children: React.ReactNode;
+}) => {
+  return (
+    <li>
+      <Link
+        className="p-4 block hover:bg-blue-400 transition-colors duration-300"
         href={href}
       >
         {children}
