@@ -69,12 +69,24 @@ export default function Header() {
           </button>
         </div>
 
-        {/* Mobile Navigation */}
-        <div className={`lg:hidden ${isMenuOpen ? 'block' : 'hidden'} pb-4`}>
-          <nav className="border-t border-blue-400 pt-4">
+        {/* Mobile Navigation with Animation */}
+        <div 
+          className={`lg:hidden overflow-hidden transition-all duration-300 ease-in-out ${
+            isMenuOpen 
+              ? 'max-h-96 opacity-100 transform translate-y-0' 
+              : 'max-h-0 opacity-0 transform -translate-y-4'
+          }`}
+        >
+          <nav className="border-t border-blue-400 pt-4 pb-4">
             <ul className="space-y-2">
-              {NavLinks.map((link) => (
-                <MobileNavLink key={link.href} href={link.href} onClick={() => setIsMenuOpen(false)}>
+              {NavLinks.map((link, index) => (
+                <MobileNavLink 
+                  key={link.href} 
+                  href={link.href} 
+                  onClick={() => setIsMenuOpen(false)}
+                  delay={index * 100}
+                  isVisible={isMenuOpen}
+                >
                   {link.label}
                 </MobileNavLink>
               ))}
@@ -83,10 +95,20 @@ export default function Header() {
             {/* Mobile Auth Links */}
             <div className="border-t border-blue-400 mt-4 pt-4">
               <ul className="space-y-2">
-                <MobileNavLink href="/sign-in" onClick={() => setIsMenuOpen(false)}>
+                <MobileNavLink 
+                  href="/sign-in" 
+                  onClick={() => setIsMenuOpen(false)}
+                  delay={400}
+                  isVisible={isMenuOpen}
+                >
                   Log In
                 </MobileNavLink>
-                <MobileNavLink href="/sign-up" onClick={() => setIsMenuOpen(false)}>
+                <MobileNavLink 
+                  href="/sign-up" 
+                  onClick={() => setIsMenuOpen(false)}
+                  delay={500}
+                  isVisible={isMenuOpen}
+                >
                   Sign Up
                 </MobileNavLink>
               </ul>
@@ -150,13 +172,24 @@ const MobileNavLink = ({
   href,
   children,
   onClick,
+  delay = 0,
+  isVisible = false,
 }: {
   href: string;
   children: React.ReactNode;
   onClick?: () => void;
+  delay?: number;
+  isVisible?: boolean;
 }) => {
   return (
-    <li>
+    <li 
+      className={`transition-all duration-300 ease-out ${
+        isVisible 
+          ? 'opacity-100 transform translate-x-0' 
+          : 'opacity-0 transform -translate-x-4'
+      }`}
+      style={{ transitionDelay: `${delay}ms` }}
+    >
       <Link
         className="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-400 hover:text-white transition-colors duration-300"
         href={href}
