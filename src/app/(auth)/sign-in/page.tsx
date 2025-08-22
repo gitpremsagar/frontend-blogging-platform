@@ -21,12 +21,15 @@ import { Loader2 } from "lucide-react";
 import axios, { AxiosError } from "axios";
 import { API_ROUTES } from "@/lib/constants";
 import Link from "next/link";
+import { useDispatch } from "react-redux";
+import { setAuthState } from "@/redux/authSlice";
 
 export default function SignInForm() {
+  const dispatch = useDispatch();
+
   const [isPosting, setIsPosting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState(false);
-
   const form = useForm<z.infer<typeof SigninFormSchema>>({
     resolver: zodResolver(SigninFormSchema),
     defaultValues: {
@@ -44,6 +47,10 @@ export default function SignInForm() {
   
       // store accessToken in redux store
       if (response.data.accessToken) {
+        dispatch(setAuthState({
+          isAuthenticated: true,
+          accessToken: response.data.accessToken,
+        }));
         console.log("Sign-in Response:\nAccessToken:",response.data.accessToken);
       }
 

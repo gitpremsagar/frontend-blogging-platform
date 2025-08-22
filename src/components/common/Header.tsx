@@ -2,6 +2,10 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
+import { resetUser } from "@/redux/userSlice";
+import { resetAuthState } from "@/redux/authSlice";
 
 const NavLinks = [
   { href: "/", label: "Home" },
@@ -12,6 +16,14 @@ const NavLinks = [
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated);
+  const user = useSelector((state: RootState) => state.user);
+  const dispatch = useDispatch();
+
+  const handleLogout = () => {
+    dispatch(resetUser());
+    dispatch(resetAuthState());
+  };
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -36,8 +48,14 @@ export default function Header() {
             
             {/* Desktop Auth Links */}
             <ul className="flex items-center space-x-4 ml-8">
-              <RightNavLink href="/sign-in">Log In</RightNavLink>
-              <RightNavLink href="/sign-up">Sign Up</RightNavLink>
+              {isAuthenticated ? (
+                  <button onClick={handleLogout}>Log Out</button>
+              ) : (
+                <>
+                  <RightNavLink href="/sign-in">Log In</RightNavLink>
+                  <RightNavLink href="/sign-up">Sign Up</RightNavLink>
+                </>
+              )}
             </ul>
           </nav>
 

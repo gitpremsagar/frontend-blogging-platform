@@ -1,8 +1,10 @@
-import type { Metadata } from "next";
+"use client";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/common/Header";
 import Footer from "@/components/common/Footer";
+import { Provider } from "react-redux";
+import store from "@/redux/store";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -14,11 +16,6 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: "Bloggy",
-  description: "Bloggy is a blog platform for sharing your thoughts and ideas.",
-};
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -26,12 +23,19 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <title>Bloggy</title>
+      <meta
+        name="description"
+        content="Bloggy is a blog platform for sharing your thoughts and ideas."
+      />
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Header />
-        {children}
-        <Footer />
+        <Provider store={store}>
+          <Header />
+          {children}
+          <Footer />
+        </Provider>
       </body>
     </html>
   );

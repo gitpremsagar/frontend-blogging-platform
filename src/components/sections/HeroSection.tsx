@@ -20,7 +20,7 @@ export default function HeroSection() {
               href="/sign-up" 
               className="bg-yellow-400 text-gray-900 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-yellow-300 transition-colors duration-300 flex items-center justify-center"
             >
-              Start Reading
+              Join as Writer
               <ArrowRight className="ml-2 h-5 w-5" />
             </Link>
             <Link 
