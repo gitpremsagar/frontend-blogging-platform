@@ -18,7 +18,7 @@ export default function Header() {
   };
 
   return (
-    <header className="bg-blue-500 text-white shadow-lg">
+    <header className="bg-blue-700 text-white shadow-lg">
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center py-4">
           {/* Logo */}
@@ -69,7 +69,7 @@ export default function Header() {
           </button>
         </div>
 
-        {/* Mobile Navigation with Animation */}
+        {/* Mobile Navigation */}
         <div 
           className={`lg:hidden overflow-hidden transition-all duration-300 ease-in-out ${
             isMenuOpen 
