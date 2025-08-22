@@ -82,7 +82,7 @@ export default function SignInForm() {
     <div className="container mx-auto">
     <div className="flex justify-center items-center h-screen">
       <div className="w-full max-w-md p-10 border border-gray-300 shadow-xl rounded-lg">
-        <h1 className="text-2xl font-bold">Sign-In</h1>
+        <h1 className="text-2xl font-bold">Log In</h1>
         <p className="text-sm text-gray-500 mb-4">
           Welcome back! Please sign in to your account
         </p>
@@ -148,7 +148,7 @@ export default function SignInForm() {
                   <Loader2 className="h-4 w-4 animate-spin" /> Signing in...
                 </div>
               ) : (
-                "Sign-In"
+                "Log In"
               )}
             </Button>
             

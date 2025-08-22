@@ -194,7 +194,7 @@ export default function SignUpForm() {
                 </FormItem>
               )}
             />
-            <Button type="submit" disabled={isPosting}>
+            <Button type="submit" disabled={isPosting} className="w-full">
               {isPosting ? (
                 <div className="flex items-center gap-2">
                   <Loader2 className="h-4 w-4 animate-spin" /> Please wait...

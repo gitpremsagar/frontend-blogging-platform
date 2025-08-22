@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { useState } from "react";
 
 const NavLinks = [
   { href: "/", label: "Home" },
@@ -8,67 +11,100 @@ const NavLinks = [
 ];
 
 export default function Header() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
   return (
-    <header className="bg-blue-500 text-white">
-      <div className="container mx-auto">
-        <div className="flex justify-between items-center">
-          <LeftNav />
-          <RightNav />
+    <header className="bg-blue-500 text-white shadow-lg">
+      <div className="container mx-auto px-4">
+        <div className="flex justify-between items-center py-4">
+          {/* Logo */}
+          <Logo />
+          
+          {/* Desktop Navigation */}
+          <nav className="hidden lg:flex items-center space-x-8">
+            <ul className="flex space-x-6">
+              {NavLinks.map((link) => (
+                <LeftNavLink key={link.href} href={link.href}>
+                  {link.label}
+                </LeftNavLink>
+              ))}
+            </ul>
+            
+            {/* Desktop Auth Links */}
+            <ul className="flex items-center space-x-4 ml-8">
+              <RightNavLink href="/sign-in">Log In</RightNavLink>
+              <RightNavLink href="/sign-up">Sign Up</RightNavLink>
+            </ul>
+          </nav>
+
+          {/* Mobile Menu Button */}
+          <button
+            onClick={toggleMenu}
+            className="lg:hidden flex items-center px-3 py-2 border rounded text-white border-white hover:text-blue-200 hover:border-blue-200 transition-colors duration-300"
+            aria-label="Toggle menu"
+          >
+            <svg
+              className="fill-current h-4 w-4"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              {isMenuOpen ? (
+                <path
+                  fillRule="evenodd"
+                  d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                  clipRule="evenodd"
+                />
+              ) : (
+                <path
+                  fillRule="evenodd"
+                  d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+                  clipRule="evenodd"
+                />
+              )}
+            </svg>
+          </button>
+        </div>
+
+        {/* Mobile Navigation */}
+        <div className={`lg:hidden ${isMenuOpen ? 'block' : 'hidden'} pb-4`}>
+          <nav className="border-t border-blue-400 pt-4">
+            <ul className="space-y-2">
+              {NavLinks.map((link) => (
+                <MobileNavLink key={link.href} href={link.href} onClick={() => setIsMenuOpen(false)}>
+                  {link.label}
+                </MobileNavLink>
+              ))}
+            </ul>
+            
+            {/* Mobile Auth Links */}
+            <div className="border-t border-blue-400 mt-4 pt-4">
+              <ul className="space-y-2">
+                <MobileNavLink href="/sign-in" onClick={() => setIsMenuOpen(false)}>
+                  Log In
+                </MobileNavLink>
+                <MobileNavLink href="/sign-up" onClick={() => setIsMenuOpen(false)}>
+                  Sign Up
+                </MobileNavLink>
+              </ul>
+            </div>
+          </nav>
         </div>
       </div>
     </header>
   );
 }
 
-const LeftNav = () => {
-  return (
-    <nav className="flex justify-between items-center">
-      <Logo />
-
-      <ul className="flex justify-end block">
-        {NavLinks.map((link) => (
-          <LeftNavLink key={link.href} href={link.href}>
-            {link.label}
-          </LeftNavLink>
-        ))}
-      </ul>
-    </nav>
-  );
-};
-
 const Logo = () => {
   return (
-    <Link href="/" className="px-6 block">
-      <h1 className="text-2xl font-bold">Logo</h1>
+    <Link href="/" className="flex items-center">
+      <h1 className="text-2xl font-bold hover:text-blue-200 transition-colors duration-300">
+        Bloggy
+      </h1>
     </Link>
-  );
-};
-
-const RightNav = () => {
-  return (
-    <ul className="flex justify-end block">
-      <RightNavLink href="/sign-in">Log In</RightNavLink>
-      <RightNavLink href="/sign-up">Sign Up</RightNavLink>
-    </ul>
-  );
-};
-
-const RightNavLink = ({
-  href,
-  children,
-}: {
-  href: string;
-  children: React.ReactNode;
-}) => {
-  return (
-    <li>
-      <Link
-        className="p-4 block hover:bg-blue-400 transition-colors duration-300"
-        href={href}
-      >
-        {children}
-      </Link>
-    </li>
   );
 };
 
@@ -82,8 +118,49 @@ const LeftNavLink = ({
   return (
     <li>
       <Link
-        className="p-4 block hover:bg-blue-400 transition-colors duration-300"
+        className="px-3 py-2 rounded-md text-sm font-medium hover:bg-blue-400 hover:text-white transition-colors duration-300"
         href={href}
+      >
+        {children}
+      </Link>
+    </li>
+  );
+};
+
+const RightNavLink = ({
+  href,
+  children,
+}: {
+  href: string;
+  children: React.ReactNode;
+}) => {
+  return (
+    <li>
+      <Link
+        className="px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-400 hover:text-white transition-colors duration-300"
+        href={href}
+      >
+        {children}
+      </Link>
+    </li>
+  );
+};
+
+const MobileNavLink = ({
+  href,
+  children,
+  onClick,
+}: {
+  href: string;
+  children: React.ReactNode;
+  onClick?: () => void;
+}) => {
+  return (
+    <li>
+      <Link
+        className="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-400 hover:text-white transition-colors duration-300"
+        href={href}
+        onClick={onClick}
       >
         {children}
       </Link>
