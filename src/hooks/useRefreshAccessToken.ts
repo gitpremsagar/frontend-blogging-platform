@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { setAuthState } from "@/redux/authSlice";
 import {axiosWithCredentials} from "@/lib/custom-axios-request";
 import { API_ROUTES } from "@/lib/constants";
+import { setUser } from "@/redux/userSlice";
 
 const useRefreshAccessToken = () => {
     
@@ -28,6 +29,7 @@ const useRefreshAccessToken = () => {
                     isAuthenticated: true,
                     accessToken: response.data.accessToken,
                 }));
+                dispatch(setUser({...response.data.user}));
                 setIsRefreshed(true);
             }
         } catch (error) {
