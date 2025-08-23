@@ -61,6 +61,12 @@ export default function Header() {
             <ul className="flex items-center space-x-4 ml-8">
               {isAuthenticated ? (
                 <div className="flex items-center space-x-4">
+                  <Link
+                    href="/new-post"
+                    className="px-4 py-2 bg-green-600 hover:bg-green-500 text-white text-sm font-medium rounded-md transition-colors duration-300 border border-green-500 hover:border-green-400"
+                  >
+                    New Post
+                  </Link>
                   <span className="text-blue-100 text-sm font-medium">
                     Welcome, {user.user?.name || 'User'}
                   </span>
@@ -135,6 +141,13 @@ export default function Header() {
             <div className="border-t border-blue-400 mt-4 pt-4">
               {isAuthenticated ? (
                 <div className="space-y-3">
+                  <Link
+                    href="/new-post"
+                    onClick={() => setIsMenuOpen(false)}
+                    className="block w-full text-left px-3 py-2 bg-green-600 hover:bg-green-500 text-white text-base font-medium rounded-md transition-colors duration-300"
+                  >
+                    New Post
+                  </Link>
                   <div className="px-3 py-2 text-blue-100 text-sm font-medium">
                     Welcome, {user.user?.name || 'User'}
                   </div>
