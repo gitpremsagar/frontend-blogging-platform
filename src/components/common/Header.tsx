@@ -6,6 +6,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { resetUser } from "@/redux/userSlice";
 import { resetAuthState } from "@/redux/authSlice";
+import useAttemptLogin from "@/hooks/useAttemptLogin";
+import { axiosWithCredentials } from "@/lib/custom-axios-request";
+import { API_ROUTES } from "@/lib/constants";
 // import Cookies from "js-cookie";
 
 const NavLinks = [
@@ -19,13 +22,18 @@ export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated);
   const user = useSelector((state: RootState) => state.user);
+  const {isUserLoggedIn} = useAttemptLogin();
   const dispatch = useDispatch();
 
-  const handleLogout = () => {
-    dispatch(resetUser());
-    dispatch(resetAuthState());
-    // remove accessToken from cookies
-    // Cookies.remove("accessToken");
+  const handleLogout = async () => {
+    try {
+      const response = await axiosWithCredentials.post(API_ROUTES.auth.signOut);
+      console.log("sign out response :", response);
+      dispatch(resetUser());
+      dispatch(resetAuthState());
+    } catch (error) {
+      console.log("sign out error :", error);
+    }
   };
 
   const toggleMenu = () => {
@@ -52,7 +60,17 @@ export default function Header() {
             {/* Desktop Auth Links */}
             <ul className="flex items-center space-x-4 ml-8">
               {isAuthenticated ? (
-                  <button onClick={handleLogout}>Log Out</button>
+                <div className="flex items-center space-x-4">
+                  <span className="text-blue-100 text-sm font-medium">
+                    Welcome, {user.user?.name || 'User'}
+                  </span>
+                  <button 
+                    onClick={handleLogout}
+                    className="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white text-sm font-medium rounded-md transition-colors duration-300 border border-blue-500 hover:border-blue-400"
+                  >
+                    Log Out
+                  </button>
+                </div>
               ) : (
                 <>
                   <RightNavLink href="/sign-in">Log In</RightNavLink>
@@ -115,24 +133,41 @@ export default function Header() {
             
             {/* Mobile Auth Links */}
             <div className="border-t border-blue-400 mt-4 pt-4">
-              <ul className="space-y-2">
-                <MobileNavLink 
-                  href="/sign-in" 
-                  onClick={() => setIsMenuOpen(false)}
-                  delay={400}
-                  isVisible={isMenuOpen}
-                >
-                  Log In
-                </MobileNavLink>
-                <MobileNavLink 
-                  href="/sign-up" 
-                  onClick={() => setIsMenuOpen(false)}
-                  delay={500}
-                  isVisible={isMenuOpen}
-                >
-                  Sign Up
-                </MobileNavLink>
-              </ul>
+              {isAuthenticated ? (
+                <div className="space-y-3">
+                  <div className="px-3 py-2 text-blue-100 text-sm font-medium">
+                    Welcome, {user.user?.name || 'User'}
+                  </div>
+                  <button
+                    onClick={() => {
+                      handleLogout();
+                      setIsMenuOpen(false);
+                    }}
+                    className="w-full text-left px-3 py-2 bg-blue-600 hover:bg-blue-500 text-white text-base font-medium rounded-md transition-colors duration-300"
+                  >
+                    Log Out
+                  </button>
+                </div>
+              ) : (
+                <ul className="space-y-2">
+                  <MobileNavLink 
+                    href="/sign-in" 
+                    onClick={() => setIsMenuOpen(false)}
+                    delay={400}
+                    isVisible={isMenuOpen}
+                  >
+                    Log In
+                  </MobileNavLink>
+                  <MobileNavLink 
+                    href="/sign-up" 
+                    onClick={() => setIsMenuOpen(false)}
+                    delay={500}
+                    isVisible={isMenuOpen}
+                  >
+                    Sign Up
+                  </MobileNavLink>
+                </ul>
+              )}
             </div>
           </nav>
         </div>

@@ -24,8 +24,10 @@ import { AxiosError } from "axios";
 import { API_ROUTES } from "@/lib/constants";
 import { customAxios } from "@/lib/custom-axios-request";
 import Link from "next/link";
+import useRedirectIfLoggedIn from "@/hooks/useRedirectIfLoggedIn";
 
 export default function SignUpForm() {
+  useRedirectIfLoggedIn();
   const [isPosting, setIsPosting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);

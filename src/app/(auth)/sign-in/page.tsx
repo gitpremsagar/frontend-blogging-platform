@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { z } from "zod";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { EyeOff } from "lucide-react";
 import { Eye } from "lucide-react";
 import { Loader2 } from "lucide-react";
@@ -22,13 +22,18 @@ import { AxiosError } from "axios";
 import { API_ROUTES } from "@/lib/constants";
 import { axiosWithCredentials } from "@/lib/custom-axios-request";
 import Link from "next/link";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setAuthState } from "@/redux/authSlice";
+import { setUser } from "@/redux/userSlice";
+import { useRouter } from "next/navigation";
+import { RootState } from "@/redux/store";
+import useRedirectIfLoggedIn from "@/hooks/useRedirectIfLoggedIn";
 // import Cookies from "js-cookie";
 
 export default function SignInForm() {
+  useRedirectIfLoggedIn();
   const dispatch = useDispatch();
-
+  const router = useRouter();
   const [isPosting, setIsPosting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState(false);
@@ -53,6 +58,7 @@ export default function SignInForm() {
           isAuthenticated: true,
           accessToken: response.data.accessToken,
         }));
+        dispatch(setUser({...response.data.user}));
         // store accessToken in cookies
         // Cookies.set("accessToken", response.data.accessToken);
         console.log("Sign-in Response:\nAccessToken:",response.data.accessToken);
