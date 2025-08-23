@@ -18,11 +18,13 @@ import { useState } from "react";
 import { EyeOff } from "lucide-react";
 import { Eye } from "lucide-react";
 import { Loader2 } from "lucide-react";
-import axios, { AxiosError } from "axios";
+import { AxiosError } from "axios";
 import { API_ROUTES } from "@/lib/constants";
+import { axiosWithCredentials } from "@/lib/custom-axios-request";
 import Link from "next/link";
 import { useDispatch } from "react-redux";
 import { setAuthState } from "@/redux/authSlice";
+// import Cookies from "js-cookie";
 
 export default function SignInForm() {
   const dispatch = useDispatch();
@@ -43,7 +45,7 @@ export default function SignInForm() {
     setError(null);
   
     try {
-      const response = await axios.post(API_ROUTES.auth.signIn, values);
+      const response = await axiosWithCredentials.post(API_ROUTES.auth.signIn, values);
   
       // store accessToken in redux store
       if (response.data.accessToken) {
@@ -51,6 +53,8 @@ export default function SignInForm() {
           isAuthenticated: true,
           accessToken: response.data.accessToken,
         }));
+        // store accessToken in cookies
+        // Cookies.set("accessToken", response.data.accessToken);
         console.log("Sign-in Response:\nAccessToken:",response.data.accessToken);
       }
 

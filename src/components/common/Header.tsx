@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { resetUser } from "@/redux/userSlice";
 import { resetAuthState } from "@/redux/authSlice";
+// import Cookies from "js-cookie";
 
 const NavLinks = [
   { href: "/", label: "Home" },
@@ -23,6 +24,8 @@ export default function Header() {
   const handleLogout = () => {
     dispatch(resetUser());
     dispatch(resetAuthState());
+    // remove accessToken from cookies
+    // Cookies.remove("accessToken");
   };
 
   const toggleMenu = () => {

@@ -20,8 +20,9 @@ import { useState } from "react";
 import { EyeOff } from "lucide-react";
 import { Eye } from "lucide-react";
 import { Loader2 } from "lucide-react";
-import axios, { AxiosError } from "axios";
+import { AxiosError } from "axios";
 import { API_ROUTES } from "@/lib/constants";
+import { customAxios } from "@/lib/custom-axios-request";
 import Link from "next/link";
 
 export default function SignUpForm() {
@@ -49,7 +50,7 @@ export default function SignUpForm() {
     setSuccess(null);
   
     try {
-      await axios.post(API_ROUTES.auth.signUp, values);
+      await customAxios.post(API_ROUTES.auth.signUp, values);
   
       setSuccess("Signup successful!");
       router.push("/sign-up/success");
