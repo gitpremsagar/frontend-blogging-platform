@@ -1,4 +1,4 @@
-import { axiosWithAccessToken } from "@/lib/custom-axios-request";
+import { axiosWithAccessToken, customAxios } from "@/lib/custom-axios-request";
 import { API_ROUTES } from "@/lib/constants";
 import { BlogPostFormSchema, BlogPostUpdateSchema } from "../schemas/blogPostForm.schema";
 import { z } from "zod";
@@ -20,24 +20,30 @@ class BlogPostService {
     category?: string;
     author?: string;
     published?: boolean;
-  }): Promise<{ posts: z.infer<typeof BlogPostFormSchema>[]; total: number; page: number; limit: number }> {
+  }): Promise<{ blogPosts: any[]; total: number; page: number; limit: number }> {
     try {
-      const response = await axiosWithAccessToken.get(API_ROUTES.blogPost.getBlogPosts, {
+      const response = await customAxios.get(API_ROUTES.blogPost.getBlogPosts, {
         params,
       });
-      return response.data;
+      // Handle the new API response structure
+      return {
+        blogPosts: response.data.blogPosts || [],
+        total: response.data.total || 0,
+        page: response.data.page || 1,
+        limit: response.data.limit || 10,
+      };
     } catch (error) {
       console.error("Error fetching blog posts:", error);
       throw error;
     }
   }
 
-  async getBlogPost(id: string): Promise<z.infer<typeof BlogPostFormSchema>> {
+  async getBlogPost(id: string): Promise<any> {
     try {
       const response = await axiosWithAccessToken.get(
         API_ROUTES.blogPost.getBlogPost.replace(":id", id)
       );
-      return response.data;
+      return response.data.blogPost;
     } catch (error) {
       console.error("Error fetching blog post:", error);
       throw error;
@@ -66,12 +72,12 @@ class BlogPostService {
     }
   }
 
-  async getFeaturedBlogPosts(): Promise<z.infer<typeof BlogPostFormSchema>[]> {
+  async getFeaturedBlogPosts(): Promise<any[]> {
     try {
       const response = await axiosWithAccessToken.get(API_ROUTES.blogPost.getBlogPosts, {
         params: { featured: true, published: true, limit: 6 },
       });
-      return response.data.posts;
+      return response.data.blogPosts || [];
     } catch (error) {
       console.error("Error fetching featured blog posts:", error);
       throw error;
