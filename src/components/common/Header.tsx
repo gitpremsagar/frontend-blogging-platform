@@ -14,8 +14,6 @@ import { API_ROUTES } from "@/lib/constants";
 const NavLinks = [
   { href: "/", label: "Home" },
   { href: "/blog", label: "Blog" },
-  { href: "/new", label: "New" },
-  { href: "/popular", label: "Popular" },
 ];
 
 export default function Header() {

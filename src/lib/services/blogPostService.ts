@@ -40,7 +40,7 @@ class BlogPostService {
 
   async getBlogPost(id: string): Promise<any> {
     try {
-      const response = await axiosWithAccessToken.get(
+      const response = await customAxios.get(
         API_ROUTES.blogPost.getBlogPost.replace(":id", id)
       );
       return response.data.blogPost;
