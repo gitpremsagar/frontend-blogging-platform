@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { resetUser } from "@/redux/userSlice";
@@ -9,21 +9,39 @@ import { resetAuthState } from "@/redux/authSlice";
 import useAttemptLogin from "@/hooks/useAttemptLogin";
 import { axiosWithCredentials } from "@/lib/custom-axios-request";
 import { API_ROUTES } from "@/lib/constants";
-// import Cookies from "js-cookie";
 
 const NavLinks = [
   { href: "/", label: "Home" },
   { href: "/new", label: "New" },
   { href: "/popular", label: "Popular" },
-  { href: "/categories", label: "Categories" },
 ];
 
 export default function Header() {
+  const categories = useSelector((state: RootState) => state.category.categories);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isCategoriesDropdownOpen, setIsCategoriesDropdownOpen] = useState(false);
   const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated);
   const user = useSelector((state: RootState) => state.user);
   const {isUserLoggedIn} = useAttemptLogin();
   const dispatch = useDispatch();
+  const dropdownRef = useRef<HTMLLIElement>(null);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsCategoriesDropdownOpen(false);
+      }
+    };
+
+    if (isCategoriesDropdownOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isCategoriesDropdownOpen]);
 
   const handleLogout = async () => {
     try {
@@ -38,6 +56,10 @@ export default function Header() {
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
+  };
+
+  const toggleCategoriesDropdown = () => {
+    setIsCategoriesDropdownOpen(!isCategoriesDropdownOpen);
   };
 
   return (
@@ -55,6 +77,56 @@ export default function Header() {
                   {link.label}
                 </LeftNavLink>
               ))}
+              
+              {/* Categories Dropdown */}
+              <li className="relative" ref={dropdownRef}>
+                <button
+                  onClick={toggleCategoriesDropdown}
+                  className="px-3 py-2 rounded-md text-sm font-medium hover:bg-blue-400 hover:text-white transition-colors duration-300 flex items-center"
+                >
+                  Categories
+                  <svg
+                    className={`ml-1 h-4 w-4 transition-transform duration-200 ${
+                      isCategoriesDropdownOpen ? 'rotate-180' : ''
+                    }`}
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M19 9l-7 7-7-7"
+                    />
+                  </svg>
+                </button>
+                
+                {/* Dropdown Menu */}
+                {isCategoriesDropdownOpen && (
+                  <div className="absolute top-full left-0 mt-1 w-48 bg-white rounded-md shadow-lg py-1 z-50 border border-gray-200">
+                    {categories.map((category) => (
+                      <Link
+                        key={category.id}
+                        href={`/categories/${category.slug || category.name.toLowerCase()}`}
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors duration-200"
+                        onClick={() => setIsCategoriesDropdownOpen(false)}
+                      >
+                        {category.name}
+                      </Link>
+                    ))}
+                    <div className="border-t border-gray-200 mt-1 pt-1">
+                      <Link
+                        href="/categories"
+                        className="block px-4 py-2 text-sm text-blue-600 hover:bg-gray-100 transition-colors duration-200 font-medium"
+                        onClick={() => setIsCategoriesDropdownOpen(false)}
+                      >
+                        View All Categories
+                      </Link>
+                    </div>
+                  </div>
+                )}
+              </li>
             </ul>
             
             {/* Desktop Auth Links */}
@@ -135,6 +207,35 @@ export default function Header() {
                   {link.label}
                 </MobileNavLink>
               ))}
+              
+              {/* Mobile Categories Section */}
+              <li className="border-t border-blue-400 pt-2 mt-2">
+                <div className="px-3 py-2 text-sm font-medium text-blue-100">
+                  Categories
+                </div>
+                <ul className="ml-4 space-y-1">
+                  {categories.map((category) => (
+                    <li key={category.id}>
+                      <Link
+                        href={`/categories/${category.slug || category.name.toLowerCase()}`}
+                        className="block px-3 py-1 text-sm text-blue-200 hover:text-white hover:bg-blue-400 rounded transition-colors duration-200"
+                        onClick={() => setIsMenuOpen(false)}
+                      >
+                        {category.name}
+                      </Link>
+                    </li>
+                  ))}
+                  <li>
+                    <Link
+                      href="/categories"
+                      className="block px-3 py-1 text-sm text-blue-300 hover:text-white hover:bg-blue-400 rounded transition-colors duration-200 font-medium"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      View All Categories
+                    </Link>
+                  </li>
+                </ul>
+              </li>
             </ul>
             
             {/* Mobile Auth Links */}
