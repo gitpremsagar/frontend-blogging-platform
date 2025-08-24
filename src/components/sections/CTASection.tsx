@@ -1,6 +1,16 @@
+"use client";
 import Link from "next/link";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
 
 export default function CTASection() {
+  const { isAuthenticated } = useSelector((state: RootState) => state.auth);
+
+  // Don't render the section if user is authenticated
+  if (isAuthenticated) {
+    return null;
+  }
+
   return (
     <section className="py-16 bg-gray-900 text-white">
       <div className="container mx-auto px-4 text-center">
