@@ -9,6 +9,7 @@ import { resetAuthState } from "@/redux/authSlice";
 import { useCategories } from "@/hooks/useCategories";
 import { axiosWithCredentials } from "@/lib/custom-axios-request";
 import { API_ROUTES } from "@/lib/constants";
+import useAttemptLogin from "@/hooks/useAttemptLogin";
 
 const NavLinks = [
   { href: "/", label: "Home" },
@@ -23,7 +24,8 @@ export default function Header() {
   const user = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch<AppDispatch>();
   const dropdownRef = useRef<HTMLLIElement>(null);
-
+  const { isUserLoggedIn } = useAttemptLogin();
+  // console.log("log from Header.tsx : UserLoggedIn :", isUserLoggedIn);
   // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {

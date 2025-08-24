@@ -24,7 +24,6 @@ import { useDispatch } from "react-redux";
 import { setAuthState } from "@/redux/authSlice";
 import { setUser } from "@/redux/userSlice";
 import useRedirectIfLoggedIn from "@/hooks/useRedirectIfLoggedIn";
-// import Cookies from "js-cookie";
 
 export default function SignInForm() {
   useRedirectIfLoggedIn();

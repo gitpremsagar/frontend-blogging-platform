@@ -10,12 +10,12 @@ const useAttemptLogin = () => {
       const isRefreshed = await refreshToken();
       if (isRefreshed) {
         setIsUserLoggedIn(true);
-      } else {
-        setIsUserLoggedIn(false);
-      }
+      } 
     };
-    attemptRefresh();
-  }, [refreshToken]);
+    if(!isUserLoggedIn) {
+      attemptRefresh();
+    }
+  }, [refreshToken, isUserLoggedIn]);
 
   return {
     isUserLoggedIn,
