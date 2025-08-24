@@ -72,7 +72,7 @@ export default function FeaturedBlogs() {
               <BlogCard 
                 key={blog.id} 
                 post={blog} 
-                getCategoryName={(categoryId) => blog.category?.name || 'Uncategorized'}
+                getCategoryName={() => blog.category?.name || 'Uncategorized'}
                 featured={blog.isFeatured}
               />
             ))}

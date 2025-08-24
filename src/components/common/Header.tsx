@@ -7,7 +7,6 @@ import { RootState, AppDispatch } from "@/redux/store";
 import { resetUser } from "@/redux/userSlice";
 import { resetAuthState } from "@/redux/authSlice";
 import { useCategories } from "@/hooks/useCategories";
-import useAttemptLogin from "@/hooks/useAttemptLogin";
 import { axiosWithCredentials } from "@/lib/custom-axios-request";
 import { API_ROUTES } from "@/lib/constants";
 
@@ -22,7 +21,6 @@ export default function Header() {
   const [isCategoriesDropdownOpen, setIsCategoriesDropdownOpen] = useState(false);
   const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated);
   const user = useSelector((state: RootState) => state.user);
-  const {isUserLoggedIn} = useAttemptLogin();
   const dispatch = useDispatch<AppDispatch>();
   const dropdownRef = useRef<HTMLLIElement>(null);
 

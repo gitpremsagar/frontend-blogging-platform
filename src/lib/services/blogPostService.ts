@@ -1,6 +1,7 @@
 import { axiosWithAccessToken, customAxios } from "@/lib/custom-axios-request";
 import { API_ROUTES } from "@/lib/constants";
 import { BlogPostFormSchema, BlogPostUpdateSchema } from "../schemas/blogPostForm.schema";
+import { BlogPost } from "../types/blogPost.type";
 import { z } from "zod";
 
 class BlogPostService {
@@ -20,7 +21,7 @@ class BlogPostService {
     category?: string;
     author?: string;
     published?: boolean;
-  }): Promise<{ blogPosts: any[]; total: number; page: number; limit: number }> {
+  }): Promise<{ blogPosts: BlogPost[]; total: number; page: number; limit: number }> {
     try {
       const response = await customAxios.get(API_ROUTES.blogPost.getBlogPosts, {
         params,
@@ -38,7 +39,7 @@ class BlogPostService {
     }
   }
 
-  async getBlogPost(id: string): Promise<any> {
+  async getBlogPost(id: string): Promise<BlogPost> {
     try {
       const response = await customAxios.get(
         API_ROUTES.blogPost.getBlogPost.replace(":id", id)
@@ -72,7 +73,7 @@ class BlogPostService {
     }
   }
 
-  async getFeaturedBlogPosts(): Promise<any[]> {
+  async getFeaturedBlogPosts(): Promise<BlogPost[]> {
     try {
       const response = await axiosWithAccessToken.get(API_ROUTES.blogPost.getBlogPosts, {
         params: { featured: true, published: true, limit: 6 },

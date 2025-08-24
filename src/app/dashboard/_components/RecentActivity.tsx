@@ -2,7 +2,7 @@
 
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
-import { FileText, Eye, ThumbsUp, MessageCircle, Clock } from "lucide-react";
+import { FileText, ThumbsUp, Clock } from "lucide-react";
 
 export default function RecentActivity() {
   const { posts } = useSelector((state: RootState) => state.blogPost);
@@ -25,19 +25,6 @@ export default function RecentActivity() {
         color: 'text-blue-600',
         bgColor: 'bg-blue-50',
       });
-
-      if (post.views && post.views > 0) {
-        activities.push({
-          id: `views-${post.id}`,
-          type: 'post_viewed',
-          title: `${post.views} views on "${post.title}"`,
-          description: 'Your post is getting attention!',
-          time: `${daysAgo} day${daysAgo > 1 ? 's' : ''} ago`,
-          icon: Eye,
-          color: 'text-green-600',
-          bgColor: 'bg-green-50',
-        });
-      }
 
       if (post.likes && post.likes > 0) {
         activities.push({

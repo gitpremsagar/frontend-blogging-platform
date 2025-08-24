@@ -1,23 +1,25 @@
-import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import useRefreshAccessToken from "@/hooks/useRefreshAccessToken";
-import { RootState } from "@/redux/store";
 
 const useAttemptLogin = () => {
-    const {refreshToken, isRefreshing, error, refreshRejected, isRefreshed} = useRefreshAccessToken();
-    const user = useSelector((state: RootState) => state.user);
-    const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
-    
+  const { refreshToken } = useRefreshAccessToken();
+  const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
 
-    useEffect(() => {
-        console.log("useAttemptLogin called");
-        console.log("userstate in redux store :", user);
-        refreshToken();
-    }, []);
+  useEffect(() => {
+    const attemptRefresh = async () => {
+      const isRefreshed = await refreshToken();
+      if (isRefreshed) {
+        setIsUserLoggedIn(true);
+      } else {
+        setIsUserLoggedIn(false);
+      }
+    };
+    attemptRefresh();
+  }, [refreshToken]);
 
-    return {
-        isUserLoggedIn,
-    }
-}
+  return {
+    isUserLoggedIn,
+  };
+};
 
 export default useAttemptLogin;

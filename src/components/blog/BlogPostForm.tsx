@@ -20,9 +20,6 @@ import { Textarea } from "../ui/textarea";
 import { Loader2, X, Plus } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import { blogPostService } from "@/lib/services/blogPostService";
-import { axiosWithAccessToken } from "@/lib/custom-axios-request";
-import { BlogCategory } from "@/lib/types/blogCategory.type";
-import { API_ROUTES } from "@/lib/constants";
 import {
   Select,
   SelectContent,
@@ -248,7 +245,7 @@ export default function BlogPostForm() {
           <FormField
             control={form.control}
             name="tags"
-            render={({ field }) => (
+            render={() => (
               <FormItem>
                 <FormLabel>Tags</FormLabel>
                 <FormControl>

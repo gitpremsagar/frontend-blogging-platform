@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
 import { fetchBlogPosts, fetchBlogPost } from "@/redux/blogPostSlice";
 import { blogPostService } from '@/lib/services/blogPostService';
+import { BlogPost } from '@/lib/types/blogPost.type';
 
 export const useBlogPosts = (params?: { page?: number; limit?: number; category?: string; author?: string; published?: boolean }) => {
   const dispatch = useDispatch<AppDispatch>();
@@ -18,7 +19,7 @@ export const useBlogPosts = (params?: { page?: number; limit?: number; category?
 };
 
 export const useFeaturedBlogPosts = () => {
-  const [featuredPosts, setFeaturedPosts] = useState<any[]>([]);
+  const [featuredPosts, setFeaturedPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 

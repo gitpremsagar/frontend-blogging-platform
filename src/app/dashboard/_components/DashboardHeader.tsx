@@ -19,7 +19,7 @@ export default function DashboardHeader() {
               Welcome back, {user?.name || 'User'}!
             </h1>
             <p className="text-gray-600 mt-1">
-              Here's what's happening with your blog today.
+              {`Here's what's happening with your blog today.`}
             </p>
           </div>
         </div>

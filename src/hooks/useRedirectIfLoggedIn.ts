@@ -10,7 +10,7 @@ const useRedirectIfLoggedIn = () => {
   useEffect(() => {
     if (isAuthenticated) 
       router.push("/");
-  }, [isAuthenticated]);
+  }, [isAuthenticated, router]);
 }
 
 export default useRedirectIfLoggedIn;

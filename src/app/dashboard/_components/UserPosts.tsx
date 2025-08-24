@@ -55,7 +55,7 @@ export default function UserPosts() {
           {tabs.map((tab) => (
             <button
               key={tab.id}
-              onClick={() => setActiveTab(tab.id as any)}
+              onClick={() => setActiveTab(tab.id as 'all' | 'published' | 'drafts')}
               className={`flex-1 px-3 py-2 text-sm font-medium rounded-md transition-colors ${
                 activeTab === tab.id
                   ? 'bg-white text-blue-600 shadow-sm'
@@ -118,12 +118,6 @@ export default function UserPosts() {
                       <Clock className="w-4 h-4" />
                       <span>{post.readTimeMin} min read</span>
                     </div>
-                    {post.views && (
-                      <div className="flex items-center space-x-1">
-                        <Eye className="w-4 h-4" />
-                        <span>{post.views} views</span>
-                      </div>
-                    )}
                   </div>
                 </div>
                 

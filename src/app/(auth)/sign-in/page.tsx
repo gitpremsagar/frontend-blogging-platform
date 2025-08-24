@@ -14,26 +14,21 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { z } from "zod";
-import { useEffect, useState } from "react";
-import { EyeOff } from "lucide-react";
-import { Eye } from "lucide-react";
-import { Loader2 } from "lucide-react";
+import { useState } from "react";
+import { EyeOff, Eye, Loader2 } from "lucide-react";
 import { AxiosError } from "axios";
 import { API_ROUTES } from "@/lib/constants";
 import { axiosWithCredentials } from "@/lib/custom-axios-request";
 import Link from "next/link";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setAuthState } from "@/redux/authSlice";
 import { setUser } from "@/redux/userSlice";
-import { useRouter } from "next/navigation";
-import { RootState } from "@/redux/store";
 import useRedirectIfLoggedIn from "@/hooks/useRedirectIfLoggedIn";
 // import Cookies from "js-cookie";
 
 export default function SignInForm() {
   useRedirectIfLoggedIn();
   const dispatch = useDispatch();
-  const router = useRouter();
   const [isPosting, setIsPosting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState(false);

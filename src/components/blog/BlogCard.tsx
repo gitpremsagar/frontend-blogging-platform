@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Calendar, Clock, User, ArrowRight, Star } from "lucide-react";
 import { BlogPost } from "@/lib/types/blogPost.type";
+import Image from "next/image";
 
 interface BlogCardProps {
   post: BlogPost;
@@ -12,9 +13,11 @@ export default function BlogCard({ post, getCategoryName, featured = false }: Bl
   return (
     <article className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
       <div className="relative">
-        <img 
+        <Image 
           src={post.imageUrl} 
           alt={post.imageAlt || post.title}
+          width={500}
+          height={300}
           className="w-full h-48 object-cover"
         />
         {featured && (

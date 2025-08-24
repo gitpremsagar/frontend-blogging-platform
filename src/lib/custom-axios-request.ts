@@ -1,4 +1,4 @@
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import { API_ROUTES, API_URL } from "./constants";
 import jsCookie from "js-cookie";
 
@@ -44,6 +44,7 @@ axiosWithAccessToken.interceptors.response.use(
           return axiosWithAccessToken(originalRequest);
         } catch (refreshError) {
           // Refresh failed, redirect to login
+          console.log("Refresh token failed, redirecting to login\n", refreshError);
           window.location.href = "/sign-in";
         }
       }
