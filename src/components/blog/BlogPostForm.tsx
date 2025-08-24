@@ -32,15 +32,16 @@ import {
 } from "@/components/ui/select";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
+import { useCategories } from "@/hooks/useCategories";
 
 export default function BlogPostForm() {
   const { user } = useSelector((state: RootState) => state.user);
+  const { categories } = useCategories();
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
   const [isPosting, setIsPosting] = useState(false);
   const [tagInput, setTagInput] = useState("");
   const [tags, setTags] = useState<string[]>([]);
-  const [categories, setCategories] = useState<BlogCategory[]>([]);
   const form = useForm<z.infer<typeof BlogPostFormSchema>>({
     resolver: zodResolver(BlogPostFormSchema),
     defaultValues: {
@@ -58,16 +59,7 @@ export default function BlogPostForm() {
     },
   });
 
-  useEffect(() => {
-    const fetchCategories = async () => {
-      const response = await axiosWithAccessToken.get(
-        API_ROUTES.category.getCategories
-      );
-      console.log(response.data);
-      setCategories(response.data.foundBlogCategories);
-    };
-    fetchCategories();
-  }, []);
+
 
   const addTag = () => {
     if (

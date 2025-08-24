@@ -3,9 +3,10 @@
 import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "@/redux/store";
+import { RootState, AppDispatch } from "@/redux/store";
 import { resetUser } from "@/redux/userSlice";
 import { resetAuthState } from "@/redux/authSlice";
+import { useCategories } from "@/hooks/useCategories";
 import useAttemptLogin from "@/hooks/useAttemptLogin";
 import { axiosWithCredentials } from "@/lib/custom-axios-request";
 import { API_ROUTES } from "@/lib/constants";
@@ -17,13 +18,13 @@ const NavLinks = [
 ];
 
 export default function Header() {
-  const categories = useSelector((state: RootState) => state.category.categories);
+  const { categories } = useCategories();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isCategoriesDropdownOpen, setIsCategoriesDropdownOpen] = useState(false);
   const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated);
   const user = useSelector((state: RootState) => state.user);
   const {isUserLoggedIn} = useAttemptLogin();
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const dropdownRef = useRef<HTMLLIElement>(null);
 
   // Close dropdown when clicking outside
