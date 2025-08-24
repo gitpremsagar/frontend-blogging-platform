@@ -31,7 +31,7 @@ export default function HeroSection() {
                   <Plus className="ml-2 h-5 w-5" />
                 </Link>
                 <Link 
-                  href="/blog" 
+                  href="/dashboard" 
                   className="border-2 border-white text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-white hover:text-gray-900 transition-colors duration-300 flex items-center justify-center"
                 >
                   My Dashboard

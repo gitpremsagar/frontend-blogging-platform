@@ -134,6 +134,12 @@ export default function Header() {
               {isAuthenticated ? (
                 <div className="flex items-center space-x-4">
                   <Link
+                    href="/dashboard"
+                    className="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white text-sm font-medium rounded-md transition-colors duration-300 border border-blue-500 hover:border-blue-400"
+                  >
+                    Dashboard
+                  </Link>
+                  <Link
                     href="/new-post"
                     className="px-4 py-2 bg-green-600 hover:bg-green-500 text-white text-sm font-medium rounded-md transition-colors duration-300 border border-green-500 hover:border-green-400"
                   >
@@ -242,6 +248,13 @@ export default function Header() {
             <div className="border-t border-blue-400 mt-4 pt-4">
               {isAuthenticated ? (
                 <div className="space-y-3">
+                  <Link
+                    href="/dashboard"
+                    onClick={() => setIsMenuOpen(false)}
+                    className="block w-full text-left px-3 py-2 bg-blue-600 hover:bg-blue-500 text-white text-base font-medium rounded-md transition-colors duration-300"
+                  >
+                    Dashboard
+                  </Link>
                   <Link
                     href="/new-post"
                     onClick={() => setIsMenuOpen(false)}
