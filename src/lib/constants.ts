@@ -1,4 +1,5 @@
-export const API_URL = "http://localhost:3008/api";
+// export const API_URL = "http://localhost:3008/api";
+export const API_URL = "https://backend-blogging-platform.vercel.app";
 
 export const API_ROUTES = {
     auth: {
