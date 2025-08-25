@@ -7,7 +7,7 @@ import { fetchBlogPosts, fetchBlogPost } from "@/redux/blogPostSlice";
 import { blogPostService } from '@/lib/services/blogPostService';
 import { BlogPost } from '@/lib/types/blogPost.type';
 
-export const useBlogPosts = (params?: { page?: number; limit?: number; category?: string; author?: string; published?: boolean }) => {
+export const useBlogPosts = (params?: { page?: number; limit?: number; category?: string; author?: string; published?: boolean; featured?: boolean }) => {
   const dispatch = useDispatch<AppDispatch>();
   const { posts, loading, error, total, page, limit } = useSelector((state: RootState) => state.blogPost);
 
@@ -17,7 +17,8 @@ export const useBlogPosts = (params?: { page?: number; limit?: number; category?
     params?.limit,
     params?.category,
     params?.author,
-    params?.published
+    params?.published,
+    params?.featured
   ]);
 
   useEffect(() => {

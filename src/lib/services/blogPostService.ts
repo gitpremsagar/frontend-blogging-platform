@@ -21,12 +21,26 @@ class BlogPostService {
     category?: string;
     author?: string;
     published?: boolean;
+    featured?: boolean;
   }): Promise<{ blogPosts: BlogPost[]; total: number; page: number; limit: number }> {
     try {
       console.log("log from getBlogPosts service: called", params);
-      const response = await customAxios.get(API_ROUTES.blogPost.getBlogPosts, {
-        params,
-      });
+      // Try without authentication first, fallback to authenticated request if needed
+      let response;
+      try {
+        response = await customAxios.get(API_ROUTES.blogPost.getBlogPosts, {
+          params,
+        });
+      } catch (error: any) {
+        // If unauthorized, try with authentication
+        if (error.response?.status === 401) {
+          response = await axiosWithAccessToken.get(API_ROUTES.blogPost.getBlogPosts, {
+            params,
+          });
+        } else {
+          throw error;
+        }
+      }
       // Handle the new API response structure
       return {
         blogPosts: response.data.blogPosts || [],

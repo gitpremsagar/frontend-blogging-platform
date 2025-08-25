@@ -5,7 +5,7 @@ import { blogPostService } from "@/lib/services/blogPostService";
 // Async thunk for fetching blog posts
 export const fetchBlogPosts = createAsyncThunk(
   'blogPost/fetchBlogPosts',
-  async (params?: { page?: number; limit?: number; category?: string; author?: string; published?: boolean }) => {
+  async (params?: { page?: number; limit?: number; category?: string; author?: string; published?: boolean; featured?: boolean }) => {
     const response = await blogPostService.getBlogPosts(params);
     return response;
   }
@@ -56,6 +56,7 @@ export const blogPostSlice = createSlice({
         state.loading = false;
         // Handle the new API response structure
         const response = action.payload;
+
         state.posts = response.blogPosts || [];
         state.total = response.total || 0;
         state.page = response.page || 1;

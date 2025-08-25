@@ -28,6 +28,8 @@ export default function BlogPage() {
     return category?.name || "Uncategorized";
   };
 
+
+  
   const filteredPosts = posts.filter(post =>
     post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
     post.excerpt.toLowerCase().includes(searchTerm.toLowerCase()) ||
