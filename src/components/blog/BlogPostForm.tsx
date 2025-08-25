@@ -30,12 +30,13 @@ import {
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { useCategories } from "@/hooks/useCategories";
+import { useRouter } from "next/navigation";
 
 export default function BlogPostForm() {
+  const router = useRouter();
   const { user } = useSelector((state: RootState) => state.user);
   const { categories } = useCategories();
   const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState<string | null>(null);
   const [isPosting, setIsPosting] = useState(false);
   const [tagInput, setTagInput] = useState("");
   const [tags, setTags] = useState<string[]>([]);
@@ -92,7 +93,6 @@ export default function BlogPostForm() {
   async function onSubmit(values: z.infer<typeof BlogPostFormSchema>) {
     setIsPosting(true);
     setError(null);
-    setSuccess(null);
 
     console.log("values", values);
     console.log("user", user);
@@ -102,8 +102,9 @@ export default function BlogPostForm() {
 
     try {
       const response = await blogPostService.createBlogPost(values);
-      setSuccess("Blog post created successfully");
       console.log(response);
+      // Redirect to success page
+      router.push("/new-post/success");
     } catch (error) {
       console.log("error from blog post form onSubmit\n", error);
       setError(
@@ -119,12 +120,6 @@ export default function BlogPostForm() {
       {error && (
         <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
           {error}
-        </div>
-      )}
-
-      {success && (
-        <div className="mb-4 p-3 bg-green-100 border border-green-400 text-green-700 rounded">
-          {success}
         </div>
       )}
       <Form {...form}>
