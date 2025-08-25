@@ -18,6 +18,7 @@ export const API_ROUTES = {
         createBlogPost: `/blog-post`,
         getBlogPosts: `/blog-post`,
         getBlogPost: `/blog-post/:id`,
+        getBlogPostsByCategoryId: `/blog-post/category/:id`,
         updateBlogPost: `/blog-post/:id`,
         deleteBlogPost: `/blog-post/:id`,
     },
