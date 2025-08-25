@@ -108,7 +108,7 @@ export default function Header() {
                     {categories.map((category) => (
                       <Link
                         key={category.id}
-                        href={`/categories/${category.slug || category.name.toLowerCase()}`}
+                        href={`/blog/category/${category.id}`}
                         className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors duration-200"
                         onClick={() => setIsCategoriesDropdownOpen(false)}
                       >
@@ -117,11 +117,11 @@ export default function Header() {
                     ))}
                     <div className="border-t border-gray-200 mt-1 pt-1">
                       <Link
-                        href="/categories"
+                        href="/blog"
                         className="block px-4 py-2 text-sm text-blue-600 hover:bg-gray-100 transition-colors duration-200 font-medium"
                         onClick={() => setIsCategoriesDropdownOpen(false)}
                       >
-                        View All Categories
+                        View All Blogs
                       </Link>
                     </div>
                   </div>
@@ -223,7 +223,7 @@ export default function Header() {
                   {categories.map((category) => (
                     <li key={category.id}>
                       <Link
-                        href={`/categories/${category.slug || category.name.toLowerCase()}`}
+                        href={`/blog/category/${category.id}`}
                         className="block px-3 py-1 text-sm text-blue-200 hover:text-white hover:bg-blue-400 rounded transition-colors duration-200"
                         onClick={() => setIsMenuOpen(false)}
                       >
@@ -233,11 +233,11 @@ export default function Header() {
                   ))}
                   <li>
                     <Link
-                      href="/categories"
+                      href="/blog"
                       className="block px-3 py-1 text-sm text-blue-300 hover:text-white hover:bg-blue-400 rounded transition-colors duration-200 font-medium"
                       onClick={() => setIsMenuOpen(false)}
                     >
-                      View All Categories
+                      View All Blogs
                     </Link>
                   </li>
                 </ul>

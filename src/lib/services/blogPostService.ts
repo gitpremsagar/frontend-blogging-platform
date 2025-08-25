@@ -112,6 +112,18 @@ class BlogPostService {
       throw error;
     }
   }
+
+  async getBlogPostsByCategoryId(categoryId: string): Promise<{ blogPosts: BlogPost[] }> {
+    try {
+      const response = await customAxios.get(
+        API_ROUTES.blogPost.getBlogPostsByCategoryId.replace(":id", categoryId)
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching blog posts by category:", error);
+      throw error;
+    }
+  }
 }
 
 export const blogPostService = new BlogPostService();
