@@ -10,8 +10,8 @@ export default function CategoryNotFound() {
           Category Not Found
         </h1>
         <p className="text-gray-600 mb-6">
-          The category you're looking for doesn't exist or may have been removed. 
-          You can browse all our blogs or return to the homepage.
+          {`The category you're looking for doesn't exist or may have been removed. 
+          You can browse all our blogs or return to the homepage.`}
         </p>
         
         <div className="space-y-3">

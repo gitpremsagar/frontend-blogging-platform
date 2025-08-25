@@ -13,7 +13,7 @@ export default function EmptyState({ category }: EmptyStateProps) {
         No blogs found in this category
       </h2>
       <p className="text-gray-600 mb-6">
-        There are currently no published blogs in the "{category?.name}" category.
+        {`There are currently no published blogs in the "${category?.name}" category.`}
       </p>
       <div className="space-x-4">
         <Link

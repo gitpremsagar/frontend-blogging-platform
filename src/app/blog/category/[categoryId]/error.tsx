@@ -23,7 +23,7 @@ export default function CategoryBlogsError({
           Oops! Something went wrong
         </h1>
         <p className="text-gray-600 mb-6">
-          We couldn't load the category blogs. This might be due to a network issue or the category might not exist.
+          {`We couldn't load the category blogs. This might be due to a network issue or the category might not exist.`}
         </p>
         
         <div className="space-y-3">
