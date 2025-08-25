@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
 import { fetchBlogPosts, fetchBlogPost } from "@/redux/blogPostSlice";
@@ -11,9 +11,18 @@ export const useBlogPosts = (params?: { page?: number; limit?: number; category?
   const dispatch = useDispatch<AppDispatch>();
   const { posts, loading, error, total, page, limit } = useSelector((state: RootState) => state.blogPost);
 
+  // Memoize the params to prevent unnecessary re-renders
+  const memoizedParams = useMemo(() => params, [
+    params?.page,
+    params?.limit,
+    params?.category,
+    params?.author,
+    params?.published
+  ]);
+
   useEffect(() => {
-    dispatch(fetchBlogPosts(params));
-  }, [dispatch, params]);
+    dispatch(fetchBlogPosts(memoizedParams));
+  }, [dispatch, memoizedParams]);
 
   return { posts, loading, error, total, page, limit };
 };

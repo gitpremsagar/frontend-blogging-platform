@@ -23,6 +23,7 @@ class BlogPostService {
     published?: boolean;
   }): Promise<{ blogPosts: BlogPost[]; total: number; page: number; limit: number }> {
     try {
+      console.log("log from getBlogPosts service: called", params);
       const response = await customAxios.get(API_ROUTES.blogPost.getBlogPosts, {
         params,
       });
@@ -74,6 +75,7 @@ class BlogPostService {
   }
 
   async getFeaturedBlogPosts(): Promise<BlogPost[]> {
+    console.log("log from getFeaturedBlogPosts service: called");
     try {
       const response = await axiosWithAccessToken.get(API_ROUTES.blogPost.getBlogPosts, {
         params: { featured: true, published: true, limit: 6 },
